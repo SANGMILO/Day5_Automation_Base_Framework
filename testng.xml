@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="DemoQA Automation Suite" verbose="1" parallel="false">
+    <test name="DemoQA UI Tests">
+        <classes>
+            <class name="testcases.DQ_DemoQATests"/>
+            <!-- Nếu bạn tách từng nhóm test riêng, có thể thêm nhiều <class> -->
+        </classes>
+    </test>
+</suite>
