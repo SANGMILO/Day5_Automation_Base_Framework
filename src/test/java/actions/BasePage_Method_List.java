@@ -447,4 +447,52 @@ public class BasePage_Method_List {
             return false;
         });
     }
+    //73. BasePage_Method_List.java
+    public void dismissStickyOverlaysIfAny() {
+        try {
+            String js =
+                    "var ids=['fixedban','adplus-anchor'];" +
+                            "ids.forEach(function(id){var el=document.getElementById(id); if(el){el.remove();}});" +
+                            "var els=document.querySelectorAll('[style*=\"position: fixed\"], .fc-consent-root');" + // chốt thêm fixed/consent
+                            "els.forEach(function(e){try{e.remove();}catch(ex){}});";
+            ((JavascriptExecutor) driver).executeScript(js);
+        } catch (Exception ignore) {}
+    }
+
+    //74. BasePage_Method_List.java
+    public void clickSmart(By locator) {
+        int attempts = 0;
+        while (attempts < 3) {
+            try {
+                waitForElementClickable(locator);
+                scrollIntoView(locator);
+                try {
+                    // di chuột tới tâm phần tử để tránh bị bar che
+                    new Actions(driver).moveToElement(getElement(locator)).pause(Duration.ofMillis(100)).perform();
+                } catch (Exception ignore) {}
+
+                clickToElement(locator); // click chuẩn
+                return; // thành công -> thoát
+            } catch (org.openqa.selenium.ElementClickInterceptedException e) {
+                // bị che -> dọn overlay rồi thử lại
+                dismissStickyOverlaysIfAny();
+
+                // thử click JS như “bùa thoát hiểm”
+                try {
+                    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", getElement(locator));
+                    return;
+                } catch (Exception ignore) {}
+
+                attempts++;
+                if (attempts >= 3) throw e; // hết retry -> ném lại
+            } catch (Exception e) {
+                // lỗi khác: thử JS 1 lần
+                try {
+                    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", getElement(locator));
+                    return;
+                } catch (Exception ignore) {}
+                throw e;
+            }
+        }
+    }
 }
