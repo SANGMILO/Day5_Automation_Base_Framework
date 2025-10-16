@@ -3,13 +3,14 @@ package testcases;
 import actions.BaseTest;
 import actions.HomePageAction;
 import actions.bookstore.LoginPageAction;
-import actions.elements.ElementsLeftMenuAction;
-import actions.elements.TextBoxPageAction;
-import actions.elements.CheckBoxPageAction;
-import actions.elements.RadioButtonPageAction;
-
+import actions.elements.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import java.nio.file.*;
+import java.time.Duration;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class DQ_DemoQATests extends BaseTest {
     //testcase:DQ-TB-001
@@ -124,5 +125,59 @@ public class DQ_DemoQATests extends BaseTest {
         login.FillLoginForm(user,pass);
         login.loginBtn();
         Assert.assertTrue(login.isOutPut());
+    }
+
+    //download
+    @Test
+    public void DownloadTest() throws InterruptedException {
+        HomePageAction home = new HomePageAction(driver);
+        ElementsLeftMenuAction menu = new ElementsLeftMenuAction(driver);
+        UpLoadAndDownloadAction up = new UpLoadAndDownloadAction(driver, downloadDir);
+
+        home.openHome();
+        home.goToElementsModule();
+        menu.OpenUpLoadAndDownload();
+
+        up.clickDownLoad();
+
+        // chờ file “sampleFile…” xuất hiện trong thư mục download
+        Path file = up.waitForDownloadedWithPrefix("sampleFile", Duration.ofSeconds(20));
+        Assert.assertTrue(Files.exists(file), "File chưa được tải về: " + file);
+        System.out.println("File download tại: " + file.toAbsolutePath());
+
+        // Mở thư mục chứa file (Windows)
+        try {
+            new ProcessBuilder("explorer.exe", "/select,", file.toString()).start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //upload
+    @Test
+    public void UploadTest() throws InterruptedException {
+        HomePageAction home = new HomePageAction(driver);
+        ElementsLeftMenuAction menu = new ElementsLeftMenuAction(driver);
+        Path file = Paths.get(System.getProperty("user.dir"), "src", "test", "java", "datas", "user.xlsx");
+        System.out.println("File path: " + file);
+
+        // Kiểm tra file tồn tại
+        Assert.assertTrue(Files.exists(file), "Không tìm thấy file: " + file);
+
+        UpLoadAndDownloadAction up = new UpLoadAndDownloadAction(driver, getDownloadDir());
+
+        home.openHome();
+        home.goToElementsModule();
+        menu.OpenUpLoadAndDownload();
+        up.upLoadFile(file);
+
+        // lấy kết quả hiển thị
+        String result = up.upLoadResultText(); // đọc id uploadedFilePath
+        Assert.assertTrue(result.toLowerCase().endsWith(file.getFileName().toString().toLowerCase()),
+                "Upload result không khớp tên file. Thấy: " + result);
+
+
+        // giữ lại trình duyệt 10s để xem kết quả
+        Thread.sleep(10000);
     }
 }

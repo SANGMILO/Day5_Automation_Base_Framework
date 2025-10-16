@@ -8,7 +8,7 @@ import interfaces.elements.RadioButtonPageInterface;
 import interfaces.elements.TextBoxPageInterface;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-
+import interfaces.elements.UpLoadDownloadInterFace;
 public class ElementsLeftMenuAction extends BasePage_Method_List implements ElementsLeftMenuInterface {
     public ElementsLeftMenuAction(WebDriver driver) { super(driver); }
 
@@ -78,4 +78,14 @@ public class ElementsLeftMenuAction extends BasePage_Method_List implements Elem
 
         System.out.println("[OpenLoginPage] URL hiện tại: " + getCurrentUrl());
     }
+
+    //OPEN download and upload
+    public void OpenUpLoadAndDownload(){
+        waitForElementIsVisible(UPLOAD_DOWNLOAD_ITEM);
+        scrollIntoView(UPLOAD_DOWNLOAD_ITEM);
+        clickReliable(UPLOAD_DOWNLOAD_ITEM);
+        try { waitUrlContains("/upload-download"); } catch (Exception ignore) {}
+        waitVisibleAny(UpLoadDownloadInterFace.DOWNLOAD_BTN);
+    }
+
 }
