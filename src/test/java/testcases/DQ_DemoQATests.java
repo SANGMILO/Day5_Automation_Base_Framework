@@ -1,6 +1,5 @@
 package testcases;
 
-import actions.BasePage_Method_List;
 import actions.BaseTest;
 import actions.HomePageAction;
 import actions.bookstore.LoginPageAction;
@@ -8,7 +7,7 @@ import actions.elements.ElementsLeftMenuAction;
 import actions.elements.TextBoxPageAction;
 import actions.elements.CheckBoxPageAction;
 import actions.elements.RadioButtonPageAction;
-import interfaces.bookstore.LoginPageInterface;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

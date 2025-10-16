@@ -1,11 +1,9 @@
 package actions.elements;
 
 import actions.BasePage_Method_List;
-import interfaces.HomePageInterface;
 import interfaces.elements.TextBoxPageInterface;
 import org.openqa.selenium.WebDriver;
 
-import javax.xml.crypto.dsig.spec.XSLTTransformParameterSpec;
 
 public class TextBoxPageAction extends BasePage_Method_List implements TextBoxPageInterface {
     public TextBoxPageAction(WebDriver driver)
@@ -21,7 +19,7 @@ public class TextBoxPageAction extends BasePage_Method_List implements TextBoxPa
     public void Submit(){
         dismissStickyOverlaysIfAny();
         scrollIntoView(SUBMIT);
-        clickSmart(SUBMIT);                 // ✅ dùng click có retry + JS fallback
+        clickSmart(SUBMIT);                 //  dùng click có retry + JS fallback
         waitForElementIsVisible(OUTPUT); // chờ khối output xuất hiện
     }
 
