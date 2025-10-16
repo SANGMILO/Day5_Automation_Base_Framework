@@ -124,6 +124,6 @@ public class DQ_DemoQATests extends BaseTest {
 
         login.FillLoginForm(user,pass);
         login.loginBtn();
-        Assert.assertTrue(login.isOutPut(),"Out put block is not visible!");
+        Assert.assertTrue(login.isOutPut());
     }
 }
