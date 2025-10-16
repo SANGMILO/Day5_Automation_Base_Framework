@@ -24,4 +24,13 @@ public class HomePageAction extends BasePage_Method_List implements HomePageInte
                 ElementsLeftMenuInterface.PAGE_TITLE
         );
     }
+    public void goToBookStore() {
+        waitForElementClickable(BOOKSTORE_APPLICATION);
+        scrollIntoView(BOOKSTORE_APPLICATION);
+        clickReliable(BOOKSTORE_APPLICATION);
+        try { waitUrlContains("/bookstore"); } catch (Exception ignore) {}
+        waitVisibleAny(
+                ElementsLeftMenuInterface.LOGIN
+        );
+    }
 }

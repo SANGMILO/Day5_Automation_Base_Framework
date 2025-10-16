@@ -24,6 +24,7 @@ public class TextBoxPageAction extends BasePage_Method_List implements TextBoxPa
         clickSmart(SUBMIT);                 // ✅ dùng click có retry + JS fallback
         waitForElementIsVisible(OUTPUT); // chờ khối output xuất hiện
     }
+
     public boolean isOutPutShow(){
         return isDisplayElement(OUTPUT);
     }

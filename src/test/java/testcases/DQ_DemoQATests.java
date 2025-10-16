@@ -3,10 +3,12 @@ package testcases;
 import actions.BasePage_Method_List;
 import actions.BaseTest;
 import actions.HomePageAction;
+import actions.bookstore.LoginPageAction;
 import actions.elements.ElementsLeftMenuAction;
 import actions.elements.TextBoxPageAction;
 import actions.elements.CheckBoxPageAction;
 import actions.elements.RadioButtonPageAction;
+import interfaces.bookstore.LoginPageInterface;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -105,5 +107,23 @@ public class DQ_DemoQATests extends BaseTest {
 
         rb.chooseYes();
         Assert.assertEquals(rb.selectedValue(), "Yes", "Kết quả hiển thị không đúng!");
+    }
+
+    //login
+    @Test
+    public void LoginTest(){
+        HomePageAction home = new HomePageAction(driver);
+        ElementsLeftMenuAction menu = new ElementsLeftMenuAction(driver);
+        LoginPageAction login = new LoginPageAction(driver);
+        home.openHome();
+        home.goToBookStore();
+        menu.OpenLoginPage();
+
+        String user = "sang@gmail.com";
+        String pass= "12345678";
+
+        login.FillLoginForm(user,pass);
+        login.loginBtn();
+        Assert.assertTrue(login.isOutPut(),"Out put block is not visible!");
     }
 }

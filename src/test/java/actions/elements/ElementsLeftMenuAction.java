@@ -1,6 +1,7 @@
 package actions.elements;
 
 import actions.BasePage_Method_List;
+import interfaces.bookstore.LoginPageInterface;
 import interfaces.elements.CheckBoxPageInterface;
 import interfaces.elements.ElementsLeftMenuInterface;
 import interfaces.elements.RadioButtonPageInterface;
@@ -53,5 +54,28 @@ public class ElementsLeftMenuAction extends BasePage_Method_List implements Elem
         );
 
         System.out.println("[openRadioButton] URL hiện tại: " + getCurrentUrl());
+    }
+    public void OpenLoginPage(){
+        waitForElementIsVisible(LOGIN);
+        scrollIntoView(LOGIN);
+        clickReliable(LOGIN);
+        boolean navigated = true;
+        try {
+            waitUrlContains("/login");
+        } catch (TimeoutException ex) {
+            navigated = false;
+        }
+
+        if (!navigated) {
+            System.out.println("[OpenLoginPage] URL chưa đổi sau click. Fallback mở thẳng URL...");
+            getPageUrl("https://demoqa.com/login");
+        }
+
+        waitVisibleAny(
+                LoginPageInterface.login, // label Yes luôn có khi trang đã vào
+                PAGE_TITLE                          // header "Radio Button" (phụ)
+        );
+
+        System.out.println("[OpenLoginPage] URL hiện tại: " + getCurrentUrl());
     }
 }
